@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRoute } from 'wouter';
 import { RootState } from '@/lib/store';
 import { 
   fetchProducts, 
@@ -30,7 +31,11 @@ export default function Products() {
     ratings: true,
   });
   
-  const productsPerPage = 8;
+  // Get category from URL params
+  const [matchCategory, paramsCategory] = useRoute("/category/:categoryId");
+  const [matchSubCategory, paramsSubCategory] = useRoute("/category/:categoryId/:subCategory");
+  
+  const productsPerPage = 12; // Show more products per page
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   
   // Get current products for pagination
@@ -38,9 +43,24 @@ export default function Products() {
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
   
+  // Handle URL parameters for categories
   useEffect(() => {
     dispatch(fetchProducts());
-  }, [dispatch]);
+    
+    // Set category based on URL parameters
+    if (matchCategory && paramsCategory.categoryId) {
+      const categoryId = parseInt(paramsCategory.categoryId);
+      if (!isNaN(categoryId) && CATEGORIES.some(cat => cat.id === categoryId)) {
+        dispatch(setCategory(categoryId));
+      }
+    } else if (matchSubCategory && paramsSubCategory.categoryId) {
+      const categoryId = parseInt(paramsSubCategory.categoryId);
+      if (!isNaN(categoryId) && CATEGORIES.some(cat => cat.id === categoryId)) {
+        dispatch(setCategory(categoryId));
+        // Note: We could also filter by subcategory if needed
+      }
+    }
+  }, [dispatch, matchCategory, paramsCategory, matchSubCategory, paramsSubCategory]);
   
   useEffect(() => {
     // Reset to first page when filters change
@@ -89,10 +109,17 @@ export default function Products() {
   const currentMinPrice = priceRange[0] / 100;
   const currentMaxPrice = priceRange[1] / 100;
 
+  // Get category name if a category is selected
+  const categoryName = selectedCategory 
+    ? CATEGORIES.find(c => c.id === selectedCategory)?.name 
+    : null;
+  
   return (
     <div className="bg-gray-50 min-h-screen py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-2xl font-bold mb-6">All Products</h1>
+        <h1 className="text-2xl font-bold mb-6">
+          {categoryName ? `${categoryName} Products` : 'All Products'}
+        </h1>
         
         {/* Mobile filter button */}
         <div className="md:hidden mb-4">

@@ -65,120 +65,243 @@ export const CATEGORIES = [
   }
 ];
 
-export const PRODUCTS = [
-  {
-    id: 1,
-    name: "Premium Wireless Headphones",
-    description: "Noise cancelling with 30h battery life",
-    price: 799900, // in paisa (INR 7,999)
-    discountPrice: 599900, // in paisa (INR 5,999)
-    discountPercentage: 25,
-    rating: 4.5,
-    reviewCount: 128,
-    categoryId: 1,
-    brand: "SoundMax",
-    imageUrl: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=300&q=80",
-    stock: 50
-  },
-  {
-    id: 2,
-    name: "Gaming Laptop 15.6\"",
-    description: "16GB RAM, 512GB SSD, RTX 3060",
-    price: 8999900, // in paisa (INR 89,999)
-    discountPrice: 7649900, // in paisa (INR 76,499)
-    discountPercentage: 15,
-    rating: 4.0,
-    reviewCount: 86,
-    categoryId: 1,
-    brand: "TechPro",
-    imageUrl: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=300&q=80",
-    stock: 10
-  },
-  {
-    id: 3,
-    name: "Pro Running Shoes",
-    description: "Lightweight sports shoes with cushioning",
-    price: 649900, // in paisa (INR 6,499)
-    discountPrice: 449900, // in paisa (INR 4,499)
-    discountPercentage: 31,
-    rating: 5.0,
-    reviewCount: 219,
-    categoryId: 2,
-    brand: "SportFlex",
-    imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=300&q=80",
-    stock: 75
-  },
-  {
-    id: 4,
-    name: "Premium Smartwatch",
-    description: "Fitness tracker with heart rate monitor",
-    price: 1299900, // in paisa (INR 12,999)
-    discountPrice: 1049900, // in paisa (INR 10,499)
-    discountPercentage: 19,
-    rating: 4.5,
-    reviewCount: 156,
-    categoryId: 1,
-    brand: "FitTech",
-    imageUrl: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=300&q=80",
-    stock: 30
-  },
-  {
-    id: 5,
-    name: "Wireless Earbuds Pro",
-    description: "Superior sound quality with noise cancellation",
-    price: 499900, // in paisa (INR 4,999)
-    discountPrice: 299900, // in paisa (INR 2,999)
-    discountPercentage: 40,
-    rating: 4.7,
-    reviewCount: 325,
-    categoryId: 1,
-    brand: "AudioPlus",
-    imageUrl: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=300&q=80",
-    stock: 15
-  },
-  {
-    id: 6,
-    name: "Vintage Polaroid Camera",
-    description: "Instant photo printing with classic design",
-    price: 699900, // in paisa (INR 6,999)
-    discountPrice: 349900, // in paisa (INR 3,499)
-    discountPercentage: 50,
-    rating: 4.0,
-    reviewCount: 89,
-    categoryId: 1,
-    brand: "RetroSnap",
-    imageUrl: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=300&q=80",
-    stock: 8
-  },
-  {
-    id: 7,
-    name: "Bluetooth Party Speaker",
-    description: "Powerful bass with RGB lighting effects",
-    price: 449900, // in paisa (INR 4,499)
-    discountPrice: 179900, // in paisa (INR 1,799)
-    discountPercentage: 60,
-    rating: 5.0,
-    reviewCount: 112,
-    categoryId: 1,
-    brand: "BeatBox",
-    imageUrl: "https://images.unsplash.com/photo-1608156639585-b3a032ef9689?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=300&q=80",
-    stock: 20
-  },
-  {
-    id: 8,
-    name: "Smart Fitness Watch",
-    description: "Health monitoring with exercise tracking",
-    price: 799900, // in paisa (INR 7,999)
-    discountPrice: 599900, // in paisa (INR 5,999)
-    discountPercentage: 25,
-    rating: 4.2,
-    reviewCount: 178,
-    categoryId: 1,
-    brand: "FitTech",
-    imageUrl: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=300&q=80",
-    stock: 25
+// Generate a function to create products with unique IDs
+function generateProducts() {
+  const products = [];
+  let id = 1;
+
+  // Electronics Products (Category ID: 1) - 40 products
+  const electronicsBrands = ["Apple", "Samsung", "Sony", "Bose", "JBL", "Philips", "Canon", "Nikon", "HP", "Dell", "Lenovo", "Asus", "Xiaomi", "OnePlus", "LG"];
+  const electronicsNames = [
+    "Premium Wireless Headphones", "Gaming Laptop 15.6\"", "4K Smart TV", "DSLR Camera", "Wireless Earbuds", 
+    "Bluetooth Speaker", "Smart Fitness Tracker", "Tablet Pro", "Ultrabook", "Professional Microphone",
+    "Home Theater System", "Gaming Console", "Drone with 4K Camera", "Curved Monitor", "Wireless Mouse",
+    "Mechanical Keyboard", "External SSD", "Smart Home Hub", "Portable Power Bank", "Wi-Fi Router"
+  ];
+  
+  for (let i = 0; i < 40; i++) {
+    const price = Math.floor(Math.random() * 5000000) + 499900; // Between INR 4,999 and 54,999
+    const discountPercentage = Math.floor(Math.random() * 30) + 10; // Between 10% and 40%
+    const discountPrice = Math.floor(price * (1 - discountPercentage / 100));
+    
+    products.push({
+      id: id++,
+      name: `${electronicsBrands[i % electronicsBrands.length]} ${electronicsNames[i % electronicsNames.length]} ${i + 1}`,
+      description: `High-quality electronics product with premium features and specifications.`,
+      price: price,
+      discountPrice: discountPrice,
+      discountPercentage: discountPercentage,
+      rating: (Math.floor(Math.random() * 20) + 30) / 10, // Between 3.0 and 5.0
+      reviewCount: Math.floor(Math.random() * 300) + 50, // Between 50 and 350
+      categoryId: 1,
+      brand: electronicsBrands[i % electronicsBrands.length],
+      imageUrl: `https://source.unsplash.com/random/300x300/?electronics&sig=${i}`,
+      stock: Math.floor(Math.random() * 50) + 5 // Between 5 and 55
+    });
   }
-];
+  
+  // Fashion Products (Category ID: 2) - 40 products
+  const fashionBrands = ["Adidas", "Nike", "Puma", "Levis", "Zara", "H&M", "Calvin Klein", "Tommy Hilfiger", "Gap", "Reebok", "Under Armour", "Forever 21", "Gucci", "Fossil", "Michael Kors"];
+  const fashionNames = [
+    "Running Shoes", "Slim Fit Jeans", "Formal Shirt", "Designer Watch", "Leather Handbag", 
+    "Casual T-Shirt", "Sport Shorts", "Winter Jacket", "Stylish Sunglasses", "Dress Sandals",
+    "Workout Leggings", "Cotton Socks", "Denim Jacket", "Formal Suit", "Leather Belt",
+    "Graphic Tee", "High Heels", "Backpack", "Woolen Sweater", "Athletic Shorts"
+  ];
+  
+  for (let i = 0; i < 40; i++) {
+    const price = Math.floor(Math.random() * 500000) + 99900; // Between INR 999 and 5,999
+    const discountPercentage = Math.floor(Math.random() * 40) + 10; // Between 10% and 50%
+    const discountPrice = Math.floor(price * (1 - discountPercentage / 100));
+    
+    products.push({
+      id: id++,
+      name: `${fashionBrands[i % fashionBrands.length]} ${fashionNames[i % fashionNames.length]} ${i + 1}`,
+      description: `Trendy fashion item with premium materials and comfort.`,
+      price: price,
+      discountPrice: discountPrice,
+      discountPercentage: discountPercentage,
+      rating: (Math.floor(Math.random() * 20) + 30) / 10, // Between 3.0 and 5.0
+      reviewCount: Math.floor(Math.random() * 200) + 30, // Between 30 and 230
+      categoryId: 2,
+      brand: fashionBrands[i % fashionBrands.length],
+      imageUrl: `https://source.unsplash.com/random/300x300/?fashion&sig=${i}`,
+      stock: Math.floor(Math.random() * 100) + 10 // Between 10 and 110
+    });
+  }
+  
+  // Home Products (Category ID: 3) - 20 products
+  const homeBrands = ["IKEA", "Urban Ladder", "Home Centre", "Bed Bath & Beyond", "Pottery Barn", "Crate & Barrel", "Ashley HomeStore", "Goodhome", "Nilkamal", "Godrej Interio"];
+  const homeNames = [
+    "Sofa Set", "Dining Table", "Bedside Lamp", "Wall Shelf", "Bean Bag", 
+    "Coffee Table", "Kitchen Cabinet", "Study Desk", "Wardrobe", "Floor Mat"
+  ];
+  
+  for (let i = 0; i < 20; i++) {
+    const price = Math.floor(Math.random() * 5000000) + 299900; // Between INR 2,999 and 52,999
+    const discountPercentage = Math.floor(Math.random() * 35) + 5; // Between 5% and 40%
+    const discountPrice = Math.floor(price * (1 - discountPercentage / 100));
+    
+    products.push({
+      id: id++,
+      name: `${homeBrands[i % homeBrands.length]} ${homeNames[i % homeNames.length]} ${i + 1}`,
+      description: `Quality home furniture and decor for modern living.`,
+      price: price,
+      discountPrice: discountPrice,
+      discountPercentage: discountPercentage,
+      rating: (Math.floor(Math.random() * 15) + 35) / 10, // Between 3.5 and 5.0
+      reviewCount: Math.floor(Math.random() * 150) + 20, // Between 20 and 170
+      categoryId: 3,
+      brand: homeBrands[i % homeBrands.length],
+      imageUrl: `https://source.unsplash.com/random/300x300/?furniture&sig=${i}`,
+      stock: Math.floor(Math.random() * 30) + 5 // Between 5 and 35
+    });
+  }
+  
+  // Appliances Products (Category ID: 4) - 20 products
+  const appliancesBrands = ["LG", "Samsung", "Whirlpool", "Bosch", "Philips", "Havells", "Bajaj", "Prestige", "Godrej", "Panasonic"];
+  const appliancesNames = [
+    "Refrigerator", "Washing Machine", "Microwave Oven", "Air Conditioner", "Water Purifier", 
+    "Air Fryer", "Mixer Grinder", "Induction Cooktop", "Electric Kettle", "Vacuum Cleaner"
+  ];
+  
+  for (let i = 0; i < 20; i++) {
+    const price = Math.floor(Math.random() * 8000000) + 499900; // Between INR 4,999 and 84,999
+    const discountPercentage = Math.floor(Math.random() * 25) + 10; // Between 10% and 35%
+    const discountPrice = Math.floor(price * (1 - discountPercentage / 100));
+    
+    products.push({
+      id: id++,
+      name: `${appliancesBrands[i % appliancesBrands.length]} ${appliancesNames[i % appliancesNames.length]} ${i + 1}`,
+      description: `Energy-efficient home appliance with advanced features.`,
+      price: price,
+      discountPrice: discountPrice,
+      discountPercentage: discountPercentage,
+      rating: (Math.floor(Math.random() * 15) + 35) / 10, // Between 3.5 and 5.0
+      reviewCount: Math.floor(Math.random() * 200) + 30, // Between 30 and 230
+      categoryId: 4,
+      brand: appliancesBrands[i % appliancesBrands.length],
+      imageUrl: `https://source.unsplash.com/random/300x300/?appliance&sig=${i}`,
+      stock: Math.floor(Math.random() * 25) + 3 // Between 3 and 28
+    });
+  }
+  
+  // Beauty Products (Category ID: 5) - 15 products
+  const beautyBrands = ["Lakme", "Maybelline", "MAC", "L'Oreal", "Forest Essentials", "Kama Ayurveda", "The Body Shop", "Nivea", "Biotique", "Dove"];
+  const beautyNames = [
+    "Face Serum", "Lipstick", "Facial Cleanser", "Moisturizer", "Mascara", 
+    "Eyeshadow Palette", "Hair Shampoo", "Body Lotion", "Sunscreen", "Face Mask"
+  ];
+  
+  for (let i = 0; i < 15; i++) {
+    const price = Math.floor(Math.random() * 200000) + 29900; // Between INR 299 and 2,299
+    const discountPercentage = Math.floor(Math.random() * 30) + 10; // Between 10% and 40%
+    const discountPrice = Math.floor(price * (1 - discountPercentage / 100));
+    
+    products.push({
+      id: id++,
+      name: `${beautyBrands[i % beautyBrands.length]} ${beautyNames[i % beautyNames.length]} ${i + 1}`,
+      description: `Premium beauty product for skincare and personal care.`,
+      price: price,
+      discountPrice: discountPrice,
+      discountPercentage: discountPercentage,
+      rating: (Math.floor(Math.random() * 15) + 35) / 10, // Between 3.5 and 5.0
+      reviewCount: Math.floor(Math.random() * 300) + 50, // Between 50 and 350
+      categoryId: 5,
+      brand: beautyBrands[i % beautyBrands.length],
+      imageUrl: `https://source.unsplash.com/random/300x300/?beauty&sig=${i}`,
+      stock: Math.floor(Math.random() * 40) + 10 // Between 10 and 50
+    });
+  }
+  
+  // Toys Products (Category ID: 6) - 10 products
+  const toysBrands = ["Lego", "Barbie", "Hot Wheels", "Nerf", "Fisher-Price", "Funskool", "Hasbro", "Disney", "Marvel", "Nintendo"];
+  const toysNames = [
+    "Building Blocks", "Action Figure", "Remote Car", "Board Game", "Educational Toy", 
+    "Stuffed Animal", "Dollhouse", "Puzzle Set", "Robot Kit", "Card Game"
+  ];
+  
+  for (let i = 0; i < 10; i++) {
+    const price = Math.floor(Math.random() * 300000) + 19900; // Between INR 199 and 3,199
+    const discountPercentage = Math.floor(Math.random() * 35) + 5; // Between 5% and 40%
+    const discountPrice = Math.floor(price * (1 - discountPercentage / 100));
+    
+    products.push({
+      id: id++,
+      name: `${toysBrands[i % toysBrands.length]} ${toysNames[i % toysNames.length]} ${i + 1}`,
+      description: `Fun and educational toy for children of all ages.`,
+      price: price,
+      discountPrice: discountPrice,
+      discountPercentage: discountPercentage,
+      rating: (Math.floor(Math.random() * 20) + 30) / 10, // Between 3.0 and 5.0
+      reviewCount: Math.floor(Math.random() * 150) + 20, // Between 20 and 170
+      categoryId: 6,
+      brand: toysBrands[i % toysBrands.length],
+      imageUrl: `https://source.unsplash.com/random/300x300/?toys&sig=${i}`,
+      stock: Math.floor(Math.random() * 35) + 5 // Between 5 and 40
+    });
+  }
+  
+  // Grocery Products (Category ID: 7) - 15 products
+  const groceryBrands = ["Tata", "Amul", "Nestle", "Britannia", "Parle", "ITC", "Patanjali", "Dabur", "MTR", "Haldiram's"];
+  const groceryNames = [
+    "Premium Tea", "Whole Wheat Flour", "Organic Honey", "Cheese Slices", "Instant Noodles", 
+    "Brown Rice", "Mixed Spices", "Protein Bar", "Breakfast Cereal", "Mixed Dry Fruits"
+  ];
+  
+  for (let i = 0; i < 15; i++) {
+    const price = Math.floor(Math.random() * 100000) + 4900; // Between INR 49 and 1,049
+    const discountPercentage = Math.floor(Math.random() * 25) + 5; // Between 5% and 30%
+    const discountPrice = Math.floor(price * (1 - discountPercentage / 100));
+    
+    products.push({
+      id: id++,
+      name: `${groceryBrands[i % groceryBrands.length]} ${groceryNames[i % groceryNames.length]} ${i + 1}`,
+      description: `Fresh and high-quality grocery item for daily needs.`,
+      price: price,
+      discountPrice: discountPrice,
+      discountPercentage: discountPercentage,
+      rating: (Math.floor(Math.random() * 15) + 35) / 10, // Between 3.5 and 5.0
+      reviewCount: Math.floor(Math.random() * 200) + 50, // Between 50 and 250
+      categoryId: 7,
+      brand: groceryBrands[i % groceryBrands.length],
+      imageUrl: `https://source.unsplash.com/random/300x300/?grocery&sig=${i}`,
+      stock: Math.floor(Math.random() * 100) + 20 // Between 20 and 120
+    });
+  }
+  
+  // Mobile Products (Category ID: 8) - 20 products
+  const mobileBrands = ["Apple", "Samsung", "Xiaomi", "OnePlus", "Realme", "OPPO", "Vivo", "Motorola", "Google", "Nokia"];
+  const mobileNames = [
+    "Smartphone Pro", "Foldable Phone", "Ultra Slim", "5G Phone", "Note Series", 
+    "Camera Phone", "Gaming Phone", "Budget Phone", "Mini Phone", "Plus Series"
+  ];
+  
+  for (let i = 0; i < 20; i++) {
+    const price = Math.floor(Math.random() * 10000000) + 799900; // Between INR 7,999 and 107,999
+    const discountPercentage = Math.floor(Math.random() * 30) + 5; // Between 5% and 35%
+    const discountPrice = Math.floor(price * (1 - discountPercentage / 100));
+    
+    products.push({
+      id: id++,
+      name: `${mobileBrands[i % mobileBrands.length]} ${mobileNames[i % mobileNames.length]} ${i + 1}`,
+      description: `Feature-rich smartphone with latest technology and specifications.`,
+      price: price,
+      discountPrice: discountPrice,
+      discountPercentage: discountPercentage,
+      rating: (Math.floor(Math.random() * 15) + 35) / 10, // Between 3.5 and 5.0
+      reviewCount: Math.floor(Math.random() * 500) + 100, // Between 100 and 600
+      categoryId: 8,
+      brand: mobileBrands[i % mobileBrands.length],
+      imageUrl: `https://source.unsplash.com/random/300x300/?smartphone&sig=${i}`,
+      stock: Math.floor(Math.random() * 30) + 5 // Between 5 and 35
+    });
+  }
+  
+  return products;
+}
+
+export const PRODUCTS = generateProducts();
 
 export const HERO_SLIDES = [
   {

@@ -30,12 +30,18 @@ function Router() {
       <Route path="/cart" component={Cart} />
       <Route path="/auth" component={AuthPage} />
       
+      {/* Category Routes */}
+      <Route path="/category/:categoryId" component={Products} />
+      <Route path="/category/:categoryId/:subCategory" component={Products} />
+      
       {/* Protected Routes */}
       <ProtectedRoute path="/wishlist" component={Wishlist} />
       <ProtectedRoute path="/orders" component={Orders} />
       <ProtectedRoute path="/checkout" component={Checkout} />
       
-      <Route component={NotFound} />
+      <Route path="*">
+        <NotFound />
+      </Route>
     </Switch>
   );
 }

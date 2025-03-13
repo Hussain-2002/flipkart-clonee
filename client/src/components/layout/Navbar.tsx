@@ -103,10 +103,10 @@ export default function Navbar() {
           <div className="flex items-center space-x-2">
             <Link href="/" className="flex flex-col items-start">
               <div className="flex items-center">
-                <span className="text-xl font-bold text-[#2874f0] italic">Flipkart</span>
+                <span className="text-xl font-bold text-white italic">Flipkart</span>
               </div>
-              <div className="flex items-center text-xs text-gray-500 -mt-1">
-                <span className="text-[#9e9e9e] mr-1">Explore</span>
+              <div className="flex items-center text-xs -mt-1">
+                <span className="text-white/80 mr-1">Explore</span>
                 <span className="text-[#f9cc16] font-medium">Plus</span>
                 <span className="text-[#f9cc16] text-xs ml-0.5">+</span>
               </div>
