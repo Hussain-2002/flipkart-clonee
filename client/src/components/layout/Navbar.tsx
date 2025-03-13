@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 import { openCart } from '@/lib/slices/cartSlice';
 import { setSearchQuery, searchProducts } from '@/lib/slices/productSlice';
+import { useAuth } from '@/hooks/use-auth';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { CATEGORIES } from '@/lib/constants';
@@ -15,7 +16,9 @@ import {
   ChevronDown, 
   Search, 
   Menu, 
-  X 
+  X,
+  LogIn,
+  LogOut
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -26,6 +29,7 @@ export default function Navbar() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchResultsRef = useRef<HTMLDivElement>(null);
   
+  const { user, logoutMutation } = useAuth();
   const { items: cartItems } = useSelector((state: RootState) => state.cart);
   const { searchQuery, searchResults } = useSelector((state: RootState) => state.products);
   

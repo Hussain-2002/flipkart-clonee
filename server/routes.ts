@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
@@ -7,9 +7,26 @@ import {
   insertProductSchema, 
   insertCartItemSchema,
   insertWishlistItemSchema,
-  insertOrderSchema
+  insertOrderSchema,
+  insertOrderItemSchema
 } from "@shared/schema";
 import { PRODUCTS, CATEGORIES } from "../client/src/lib/constants";
+
+// Type for sessions
+declare module 'express-session' {
+  interface SessionData {
+    userId: number;
+  }
+}
+
+// Authentication middleware
+function isAuthenticated(req: Request, res: Response, next: NextFunction) {
+  if (req.session.userId) {
+    next();
+  } else {
+    res.status(401).json({ message: "Unauthorized - Please login" });
+  }
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API Routes prefix
@@ -35,6 +52,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         phoneNumber: validatedData.phoneNumber,
         address: validatedData.address
       });
+      
+      // Set session
+      req.session.userId = user.id;
       
       // Remove password from response
       const { password, ...userWithoutPassword } = user;
@@ -63,8 +83,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Invalid credentials" });
       }
       
+      // Set session
+      req.session.userId = user.id;
+      
       // Remove password from response
       const { password: _, ...userWithoutPassword } = user;
+      
+      res.status(200).json({ user: userWithoutPassword });
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+  
+  app.post("/api/auth/logout", (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).json({ message: "Error logging out" });
+      }
+      res.status(200).json({ message: "Logged out successfully" });
+    });
+  });
+  
+  app.get("/api/auth/user", async (req, res) => {
+    if (!req.session.userId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+    
+    try {
+      const user = await storage.getUser(req.session.userId);
+      
+      if (!user) {
+        req.session.destroy((err) => {
+          if (err) console.error("Error destroying invalid session:", err);
+        });
+        return res.status(401).json({ message: "User not found" });
+      }
+      
+      // Remove password from response
+      const { password, ...userWithoutPassword } = user;
       
       res.status(200).json({ user: userWithoutPassword });
     } catch (error) {
@@ -160,6 +216,100 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.status(200).json(results);
     } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+  
+  // Order routes
+  app.post("/api/orders", isAuthenticated, async (req, res) => {
+    try {
+      const { items, shippingAddress, paymentMethod, totalAmount } = req.body;
+      
+      if (!items || !Array.isArray(items) || items.length === 0) {
+        return res.status(400).json({ message: "Order must contain at least one item" });
+      }
+      
+      // Create order
+      const order = await storage.createOrder({
+        userId: req.session.userId as number,
+        totalAmount,
+        status: "pending",
+        shippingAddress,
+        paymentMethod,
+      });
+      
+      // Create order items
+      const orderItemPromises = items.map(item => {
+        return storage.createOrderItem({
+          orderId: order.id,
+          productId: item.productId,
+          quantity: item.quantity,
+          price: item.price,
+        });
+      });
+      
+      const orderItems = await Promise.all(orderItemPromises);
+      
+      // Return the created order with items
+      res.status(201).json({
+        ...order,
+        items: orderItems,
+      });
+    } catch (error) {
+      console.error("Error creating order:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: error.errors });
+      }
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+  
+  app.get("/api/orders", isAuthenticated, async (req, res) => {
+    try {
+      // Get orders for the current user
+      const orders = await storage.getOrders(req.session.userId);
+      
+      // Get items for each order
+      const ordersWithItems = await Promise.all(
+        orders.map(async (order) => {
+          const items = await storage.getOrderItems(order.id);
+          return {
+            ...order,
+            items,
+          };
+        })
+      );
+      
+      res.status(200).json(ordersWithItems);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+  
+  app.get("/api/orders/:id", isAuthenticated, async (req, res) => {
+    try {
+      const orderId = parseInt(req.params.id);
+      const order = await storage.getOrderById(orderId);
+      
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+      
+      // Ensure the order belongs to the current user
+      if (order.userId !== req.session.userId) {
+        return res.status(403).json({ message: "You don't have permission to view this order" });
+      }
+      
+      // Get order items
+      const items = await storage.getOrderItems(orderId);
+      
+      res.status(200).json({
+        ...order,
+        items,
+      });
+    } catch (error) {
+      console.error("Error fetching order:", error);
       res.status(500).json({ message: "Server error" });
     }
   });
