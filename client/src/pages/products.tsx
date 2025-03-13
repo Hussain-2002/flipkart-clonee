@@ -17,6 +17,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { X, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react';
 
+// Define the type for filter sections
+type FilterSection = 'categories' | 'brands' | 'price' | 'ratings';
+
 export default function Products() {
   const dispatch = useDispatch();
   const { products, filteredProducts, selectedCategory, selectedBrands, priceRange, loading } = 
@@ -24,7 +27,8 @@ export default function Products() {
   
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [expandedSections, setExpandedSections] = useState({
+  
+  const [expandedSections, setExpandedSections] = useState<Record<FilterSection, boolean>>({
     categories: true,
     brands: true,
     price: true,
@@ -43,24 +47,26 @@ export default function Products() {
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
   
-  // Handle URL parameters for categories
+  // Fetch products only once when component mounts
   useEffect(() => {
-    dispatch(fetchProducts());
-    
-    // Set category based on URL parameters
+    dispatch(fetchProducts() as any);
+  }, [dispatch]);
+  
+  // Set category based on URL parameters, but only when URL changes
+  useEffect(() => {
     if (matchCategory && paramsCategory.categoryId) {
       const categoryId = parseInt(paramsCategory.categoryId);
       if (!isNaN(categoryId) && CATEGORIES.some(cat => cat.id === categoryId)) {
-        dispatch(setCategory(categoryId));
+        dispatch(setCategory(categoryId) as any);
       }
     } else if (matchSubCategory && paramsSubCategory.categoryId) {
       const categoryId = parseInt(paramsSubCategory.categoryId);
       if (!isNaN(categoryId) && CATEGORIES.some(cat => cat.id === categoryId)) {
-        dispatch(setCategory(categoryId));
+        dispatch(setCategory(categoryId) as any);
         // Note: We could also filter by subcategory if needed
       }
     }
-  }, [dispatch, matchCategory, paramsCategory, matchSubCategory, paramsSubCategory]);
+  }, [matchCategory, matchSubCategory, paramsCategory?.categoryId, paramsSubCategory?.categoryId, dispatch]);
   
   useEffect(() => {
     // Reset to first page when filters change
@@ -68,7 +74,7 @@ export default function Products() {
   }, [filteredProducts.length]);
   
   const handleCategoryClick = (categoryId: number) => {
-    dispatch(selectedCategory === categoryId ? setCategory(null) : setCategory(categoryId));
+    dispatch(selectedCategory === categoryId ? setCategory(null) : setCategory(categoryId) as any);
   };
   
   const handleBrandChange = (brand: string) => {
@@ -76,18 +82,18 @@ export default function Products() {
       ? selectedBrands.filter(b => b !== brand)
       : [...selectedBrands, brand];
     
-    dispatch(setBrands(updatedBrands));
+    dispatch(setBrands(updatedBrands) as any);
   };
   
   const handlePriceChange = (value: number[]) => {
-    dispatch(setPriceRange([value[0] * 100, value[1] * 100])); // Convert to paisa
+    dispatch(setPriceRange([value[0] * 100, value[1] * 100]) as any); // Convert to paisa
   };
   
   const handleResetFilters = () => {
-    dispatch(resetFilters());
+    dispatch(resetFilters() as any);
   };
   
-  const toggleFilterSection = (section: string) => {
+  const toggleFilterSection = (section: FilterSection) => {
     setExpandedSections({
       ...expandedSections,
       [section]: !expandedSections[section],
@@ -102,8 +108,10 @@ export default function Products() {
   const uniqueBrands = Array.from(new Set(products.map(product => product.brand)));
   
   // Calculate min and max prices for the slider
-  const minPrice = Math.floor(Math.min(...products.map(p => (p.discountPrice || p.price) / 100)));
-  const maxPrice = Math.ceil(Math.max(...products.map(p => (p.discountPrice || p.price) / 100)));
+  const minPrice = products.length > 0 ? 
+    Math.floor(Math.min(...products.map(p => (p.discountPrice || p.price) / 100))) : 0;
+  const maxPrice = products.length > 0 ? 
+    Math.ceil(Math.max(...products.map(p => (p.discountPrice || p.price) / 100))) : 10000;
   
   // Current price range in rupees for display
   const currentMinPrice = priceRange[0] / 100;
@@ -195,7 +203,7 @@ export default function Products() {
                 </div>
                 
                 {expandedSections.brands && (
-                  <div className="mt-2 space-y-2">
+                  <div className="mt-2 space-y-2 max-h-60 overflow-y-auto">
                     {uniqueBrands.map(brand => (
                       <div key={brand} className="flex items-center">
                         <Checkbox 
@@ -265,12 +273,19 @@ export default function Products() {
                   <div className="mt-2 space-y-2">
                     {[4, 3, 2, 1].map(rating => (
                       <div key={rating} className="flex items-center">
-                        <Checkbox id={`rating-${rating}`} />
+                        <Checkbox 
+                          id={`rating-${rating}`} 
+                          checked={false}
+                          onCheckedChange={() => {
+                            // Will implement rating filter in the future
+                            console.log(`Rating ${rating}+ selected`);
+                          }}
+                        />
                         <Label 
                           htmlFor={`rating-${rating}`}
                           className="ml-2 text-sm flex items-center"
                         >
-                          {rating}+ <i className="fas fa-star text-yellow-400 text-xs ml-1"></i>
+                          {rating}+ <span className="text-yellow-400 text-xs ml-1">★</span>
                         </Label>
                       </div>
                     ))}
@@ -292,7 +307,7 @@ export default function Products() {
                   <span className="bg-gray-100 rounded-full px-3 py-1 text-sm flex items-center">
                     {CATEGORIES.find(c => c.id === selectedCategory)?.name}
                     <button 
-                      onClick={() => dispatch(setCategory(null))}
+                      onClick={() => dispatch(setCategory(null) as any)}
                       className="ml-1 text-gray-500 hover:text-gray-700"
                     >
                       <X size={12} />
@@ -316,7 +331,7 @@ export default function Products() {
                   <span className="bg-gray-100 rounded-full px-3 py-1 text-sm flex items-center">
                     {formatPrice(priceRange[0])} - {formatPrice(priceRange[1])}
                     <button 
-                      onClick={() => dispatch(setPriceRange([0, 1000000]))}
+                      onClick={() => dispatch(setPriceRange([0, 1000000]) as any)}
                       className="ml-1 text-gray-500 hover:text-gray-700"
                     >
                       <X size={12} />
@@ -373,7 +388,18 @@ export default function Products() {
                         Previous
                       </Button>
                       
-                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                      {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                        // Show pages around current page
+                        let pageNum = currentPage;
+                        if (currentPage <= 3) {
+                          pageNum = i + 1;
+                        } else if (currentPage >= totalPages - 2) {
+                          pageNum = totalPages - 4 + i;
+                        } else {
+                          pageNum = currentPage - 2 + i;
+                        }
+                        return pageNum;
+                      }).map(page => (
                         <Button
                           key={page}
                           variant={currentPage === page ? "default" : "outline"}
