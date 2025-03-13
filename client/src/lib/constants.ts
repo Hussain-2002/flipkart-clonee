@@ -95,7 +95,7 @@ function generateProducts() {
       reviewCount: Math.floor(Math.random() * 300) + 50, // Between 50 and 350
       categoryId: 1,
       brand: electronicsBrands[i % electronicsBrands.length],
-      imageUrl: `https://source.unsplash.com/random/300x300/?electronics&sig=${i}`,
+      imageUrl: `https://flipkart-images.vercel.app/electronics/${i % 20 + 1}.jpg`,
       stock: Math.floor(Math.random() * 50) + 5 // Between 5 and 55
     });
   }
@@ -125,7 +125,7 @@ function generateProducts() {
       reviewCount: Math.floor(Math.random() * 200) + 30, // Between 30 and 230
       categoryId: 2,
       brand: fashionBrands[i % fashionBrands.length],
-      imageUrl: `https://source.unsplash.com/random/300x300/?fashion&sig=${i}`,
+      imageUrl: `https://flipkart-images.vercel.app/fashion/${i % 20 + 1}.jpg`,
       stock: Math.floor(Math.random() * 100) + 10 // Between 10 and 110
     });
   }
@@ -153,7 +153,7 @@ function generateProducts() {
       reviewCount: Math.floor(Math.random() * 150) + 20, // Between 20 and 170
       categoryId: 3,
       brand: homeBrands[i % homeBrands.length],
-      imageUrl: `https://source.unsplash.com/random/300x300/?furniture&sig=${i}`,
+      imageUrl: `https://flipkart-images.vercel.app/home/${i % 15 + 1}.jpg`,
       stock: Math.floor(Math.random() * 30) + 5 // Between 5 and 35
     });
   }
@@ -181,7 +181,7 @@ function generateProducts() {
       reviewCount: Math.floor(Math.random() * 200) + 30, // Between 30 and 230
       categoryId: 4,
       brand: appliancesBrands[i % appliancesBrands.length],
-      imageUrl: `https://source.unsplash.com/random/300x300/?appliance&sig=${i}`,
+      imageUrl: `https://flipkart-images.vercel.app/appliances/${i % 15 + 1}.jpg`,
       stock: Math.floor(Math.random() * 25) + 3 // Between 3 and 28
     });
   }
@@ -209,7 +209,7 @@ function generateProducts() {
       reviewCount: Math.floor(Math.random() * 300) + 50, // Between 50 and 350
       categoryId: 5,
       brand: beautyBrands[i % beautyBrands.length],
-      imageUrl: `https://source.unsplash.com/random/300x300/?beauty&sig=${i}`,
+      imageUrl: `https://flipkart-images.vercel.app/beauty/${i % 15 + 1}.jpg`,
       stock: Math.floor(Math.random() * 40) + 10 // Between 10 and 50
     });
   }
@@ -237,7 +237,7 @@ function generateProducts() {
       reviewCount: Math.floor(Math.random() * 150) + 20, // Between 20 and 170
       categoryId: 6,
       brand: toysBrands[i % toysBrands.length],
-      imageUrl: `https://source.unsplash.com/random/300x300/?toys&sig=${i}`,
+      imageUrl: `https://flipkart-images.vercel.app/toys/${i % 10 + 1}.jpg`,
       stock: Math.floor(Math.random() * 35) + 5 // Between 5 and 40
     });
   }
@@ -265,7 +265,7 @@ function generateProducts() {
       reviewCount: Math.floor(Math.random() * 200) + 50, // Between 50 and 250
       categoryId: 7,
       brand: groceryBrands[i % groceryBrands.length],
-      imageUrl: `https://source.unsplash.com/random/300x300/?grocery&sig=${i}`,
+      imageUrl: `https://flipkart-images.vercel.app/grocery/${i % 15 + 1}.jpg`,
       stock: Math.floor(Math.random() * 100) + 20 // Between 20 and 120
     });
   }
@@ -293,7 +293,7 @@ function generateProducts() {
       reviewCount: Math.floor(Math.random() * 500) + 100, // Between 100 and 600
       categoryId: 8,
       brand: mobileBrands[i % mobileBrands.length],
-      imageUrl: `https://source.unsplash.com/random/300x300/?smartphone&sig=${i}`,
+      imageUrl: `https://flipkart-images.vercel.app/mobiles/${i % 20 + 1}.jpg`,
       stock: Math.floor(Math.random() * 30) + 5 // Between 5 and 35
     });
   }
@@ -309,7 +309,7 @@ export const HERO_SLIDES = [
     title: "Festival Season Sale",
     description: "Up to 70% off on electronics, fashion & more",
     buttonText: "Shop Now",
-    imageUrl: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80",
+    imageUrl: "https://flipkart-images.vercel.app/banners/festival-sale.jpg",
     bgColor: "from-indigo-900 to-purple-800"
   },
   {
@@ -317,7 +317,7 @@ export const HERO_SLIDES = [
     title: "New Arrivals",
     description: "Discover the latest products just added to our store",
     buttonText: "Explore Now",
-    imageUrl: "https://images.unsplash.com/photo-1592842127677-c5166c90a7bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80",
+    imageUrl: "https://flipkart-images.vercel.app/banners/new-arrivals.jpg",
     bgColor: "from-blue-800 to-cyan-700"
   },
   {
@@ -325,7 +325,7 @@ export const HERO_SLIDES = [
     title: "Premium Collection",
     description: "Luxury products for the discerning customer",
     buttonText: "View Collection",
-    imageUrl: "https://images.unsplash.com/photo-1646641505974-394e56991a24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=400&q=80",
+    imageUrl: "https://flipkart-images.vercel.app/banners/premium-collection.jpg",
     bgColor: "from-red-900 to-amber-800"
   }
 ];
