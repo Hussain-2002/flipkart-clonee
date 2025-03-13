@@ -93,6 +93,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                     src={productImages[selectedImage]} 
                     alt={product.name} 
                     className="w-full h-96 object-contain p-4"
+                    onError={(e) => {
+                      const img = e.currentTarget;
+                      img.src = 'https://via.placeholder.com/400x400?text=Product+Image';
+                      img.onerror = null;
+                    }}
                   />
                   
                   {/* Image Zoom Overlay - would need additional JS for zoom functionality */}

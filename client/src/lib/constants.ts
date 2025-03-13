@@ -66,6 +66,12 @@ export const CATEGORIES = [
 ];
 
 // Generate a function to create products with unique IDs
+// Create a base URL for all images
+const IMAGE_BASE_URL = '/images/products';
+
+// For development testing, use placeholder images from picsum.photos
+const getPlaceholderImage = (id) => `https://picsum.photos/id/${200 + id}/400/400`;
+
 function generateProducts() {
   const products = [];
   let id = 1;
