@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2 } from 'lucide-react';
+import { User } from '@shared/schema';
 
 // Login form schema
 const loginSchema = z.object({
