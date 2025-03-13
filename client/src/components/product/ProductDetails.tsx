@@ -16,6 +16,9 @@ import {
   Shield
 } from 'lucide-react';
 import { Product } from '@/lib/types';
+import { formatPrice } from '@/lib/utils';
+import { getImageUrl, handleImageError } from '@/lib/image-utils';
+
 
 interface ProductDetailsProps {
   product: Product;
@@ -25,55 +28,51 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [pincode, setPincode] = useState('');
-  
+
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
-  
+
   const isInWishlist = wishlistItems.some(item => item.id === product.id);
-  
+
   // Mock product images array (in a real app, these would come from the API)
   const productImages = [
     product.imageUrl,
-    // Additional images would be here in a real product
     "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=300&q=80",
     "https://images.unsplash.com/photo-1505739998589-00fc191ce01d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&h=300&q=80"
   ];
-  
+
   const handleQuantityChange = (delta: number) => {
     const newQuantity = quantity + delta;
     if (newQuantity >= 1 && newQuantity <= 10) {
       setQuantity(newQuantity);
     }
   };
-  
+
   const handleAddToCart = () => {
     dispatch(addToCart({ product, quantity }));
   };
-  
+
   const handleBuyNow = () => {
     dispatch(addToCart({ product, quantity }));
     // Navigate to checkout
     window.location.href = '/checkout';
   };
-  
+
   const handleToggleWishlist = () => {
     dispatch(toggleWishlistItem(product));
   };
-  
+
   const handlePincodeCheck = () => {
     // In a real app, this would check delivery availability
     console.log(`Checking delivery for pincode: ${pincode}`);
   };
-  
-  const formatPrice = (price: number) => {
-    return `₹${(price / 100).toLocaleString('en-IN')}`;
-  };
-  
+
+
   const calculateDiscountPercentage = () => {
     if (!product.discountPrice) return null;
     return Math.round(((product.price - product.discountPrice) / product.price) * 100);
   };
-  
+
   const calculateEmi = (price: number) => {
     // Simple EMI calculation (price / 12 months)
     return formatPrice(Math.round(price / 12));
@@ -90,21 +89,17 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               <div className="border border-gray-200 rounded-lg overflow-hidden mb-4">
                 <div className="relative group">
                   <img 
-                    src={productImages[selectedImage]} 
+                    src={getImageUrl(productImages[selectedImage])} 
                     alt={product.name} 
                     className="w-full h-96 object-contain p-4"
-                    onError={(e) => {
-                      const img = e.currentTarget;
-                      img.src = 'https://via.placeholder.com/400x400?text=Product+Image';
-                      img.onerror = null;
-                    }}
+                    onError={handleImageError}
                   />
-                  
+
                   {/* Image Zoom Overlay - would need additional JS for zoom functionality */}
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-opacity" />
                 </div>
               </div>
-              
+
               {/* Thumbnail Images */}
               <div className="flex space-x-2 overflow-x-auto">
                 {productImages.map((img, index) => (
@@ -116,31 +111,32 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                     onClick={() => setSelectedImage(index)}
                   >
                     <img 
-                      src={img} 
+                      src={getImageUrl(img)} 
                       alt={`${product.name} - thumbnail ${index + 1}`} 
                       className="w-16 h-16 object-contain p-1"
+                      onError={handleImageError}
                     />
                   </button>
                 ))}
               </div>
             </div>
           </div>
-          
+
           {/* Product Details Section */}
           <div className="md:w-1/2 px-4">
             <h1 className="text-2xl font-bold text-gray-900 mb-2">{product.name}</h1>
-            
+
             <div className="flex items-center mb-4">
               <Rating value={product.rating} />
               <span className="ml-2 text-sm text-gray-600">{product.rating} ({product.reviewCount} reviews)</span>
             </div>
-            
+
             <div className="mb-6">
               <div className="flex items-center space-x-2 mb-1">
                 <span className="text-3xl font-bold text-gray-900">
                   {formatPrice(product.discountPrice || product.price)}
                 </span>
-                
+
                 {product.discountPrice && (
                   <>
                     <span className="text-lg text-gray-500 line-through">
@@ -152,35 +148,34 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                   </>
                 )}
               </div>
-              
+
               <p className="text-sm text-gray-600">
                 includes all taxes
               </p>
             </div>
-            
+
             {/* EMI & Exchange offers */}
             <div className="bg-gray-50 rounded-lg p-4 mb-6">
               <div className="text-sm mb-3">
                 <div className="font-medium mb-1">EMI available from {calculateEmi(product.discountPrice || product.price)}/month</div>
                 <a href="#" className="text-primary text-xs">View plans</a>
               </div>
-              
+
               <div className="text-sm">
                 <div className="font-medium mb-1">Exchange offer up to ₹2,000 off</div>
                 <a href="#" className="text-primary text-xs">Check availability</a>
               </div>
             </div>
-            
+
             {/* Product description */}
             <div className="mb-6">
               <h3 className="font-medium mb-2">About this item</h3>
               <p className="text-gray-600 text-sm leading-relaxed">
                 {product.description}
-                {/* Extended description would go here in a real app */}
                 {" Premium quality product with 1-year warranty. Made with high-quality materials for durability and performance. Includes all accessories in the box."}
               </p>
             </div>
-            
+
             {/* Quantity selector */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
@@ -202,7 +197,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 </button>
               </div>
             </div>
-            
+
             {/* Delivery information */}
             <div className="mb-6">
               <div className="flex items-start">
@@ -231,7 +226,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 </div>
               </div>
             </div>
-            
+
             {/* Seller information */}
             <div className="mb-6 border-t border-b border-gray-200 py-4">
               <div className="text-sm">
@@ -252,7 +247,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 </div>
               </div>
             </div>
-            
+
             {/* Action buttons */}
             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
               <Button 
@@ -262,7 +257,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 <ShoppingCart size={18} />
                 Add to Cart
               </Button>
-              
+
               <Button 
                 className="flex-1 gap-2"
                 variant="secondary"
@@ -270,7 +265,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               >
                 Buy Now
               </Button>
-              
+
               <Button 
                 variant="outline" 
                 size="icon"
@@ -279,7 +274,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               >
                 <Heart className={`h-5 w-5 ${isInWishlist ? "fill-current" : ""}`} />
               </Button>
-              
+
               <Button 
                 variant="outline" 
                 size="icon"
