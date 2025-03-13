@@ -125,9 +125,9 @@ export default function AuthPage() {
     <div className="flex min-h-screen bg-gray-50">
       {/* Left Side - Form */}
       <div className="flex-1 flex items-center justify-center p-8">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-          <h1 className="text-2xl font-bold text-center mb-2">Welcome to ShopEase</h1>
-          <p className="text-gray-600 text-center mb-6">Your one-stop destination for all your shopping needs</p>
+        <div className="bg-white p-8 rounded-sm shadow-lg w-full max-w-md">
+          <h1 className="text-2xl font-bold text-center mb-2 text-[#2874f0] italic">Flipkart</h1>
+          <p className="text-gray-600 text-center mb-6">Plus members get <span className="text-[#f9cc16] font-medium">extra benefits</span> and rewards</p>
           
           <Tabs defaultValue="login" value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid grid-cols-2 mb-6">
@@ -169,11 +169,11 @@ export default function AuthPage() {
                   
                   <Button 
                     type="submit" 
-                    className="w-full" 
+                    className="w-full bg-[#fb641b] hover:bg-[#fa580b] text-white" 
                     disabled={loginMutation.isPending}
                   >
                     {loginMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                    {loginMutation.isPending ? "Signing In..." : "Sign In"}
+                    {loginMutation.isPending ? "Signing In..." : "Login"}
                   </Button>
                 </form>
               </Form>
@@ -282,11 +282,11 @@ export default function AuthPage() {
                   
                   <Button 
                     type="submit" 
-                    className="w-full" 
+                    className="w-full bg-[#fb641b] hover:bg-[#fa580b] text-white" 
                     disabled={registerMutation.isPending}
                   >
                     {registerMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                    {registerMutation.isPending ? "Creating Account..." : "Create Account"}
+                    {registerMutation.isPending ? "Creating Account..." : "Register"}
                   </Button>
                 </form>
               </Form>
@@ -308,48 +308,64 @@ export default function AuthPage() {
         </div>
       </div>
       
-      {/* Right Side - Hero Image & Text */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-r from-primary to-primary-dark text-white p-8">
+      {/* Right Side - Hero Image & Text (Flipkart Style) */}
+      <div className="hidden lg:flex flex-1 bg-[#2874f0] text-white p-8">
         <div className="flex flex-col justify-center items-start max-w-xl mx-auto">
-          <h2 className="text-4xl font-bold mb-6">Shopping Made Easy</h2>
-          <p className="text-lg mb-8">
-            Join thousands of satisfied customers who enjoy our seamless shopping experience, exclusive deals, and lightning-fast delivery.
+          <h2 className="text-3xl font-medium mb-6">Looks like you're new here!</h2>
+          <p className="text-lg mb-8 opacity-90">
+            Sign up with your mobile number or email to get started
           </p>
           
-          <div className="space-y-6">
+          <div className="mt-auto">
+            <img 
+              src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/login_img_c4a81e.png" 
+              alt="Flipkart secure login" 
+              className="max-w-xs"
+            />
+          </div>
+          
+          <div className="space-y-5 mt-8">
             <div className="flex items-start">
-              <div className="bg-white/20 p-2 rounded-full mr-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <div className="mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 7h-9"></path>
+                  <path d="M14 17H5"></path>
+                  <circle cx="17" cy="17" r="3"></circle>
+                  <circle cx="7" cy="7" r="3"></circle>
                 </svg>
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-1">Easy Returns</h3>
-                <p className="text-white/80">Hassle-free 30-day return policy on all items</p>
+                <h3 className="text-md font-medium mb-1">Access to Flipkart Plus</h3>
+                <p className="text-sm opacity-80">Loyalty rewards and free delivery</p>
               </div>
             </div>
             
             <div className="flex items-start">
-              <div className="bg-white/20 p-2 rounded-full mr-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <div className="mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 10H3"></path>
+                  <path d="M21 6H3"></path>
+                  <path d="M21 14H3"></path>
+                  <path d="M21 18H3"></path>
                 </svg>
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-1">Secure Payments</h3>
-                <p className="text-white/80">Multiple secure payment options for your convenience</p>
+                <h3 className="text-md font-medium mb-1">Personalized Experience</h3>
+                <p className="text-sm opacity-80">Recommendations based on your interests</p>
               </div>
             </div>
             
             <div className="flex items-start">
-              <div className="bg-white/20 p-2 rounded-full mr-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              <div className="mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                  <line x1="3" x2="21" y1="9" y2="9"></line>
+                  <line x1="9" x2="9" y1="21" y2="9"></line>
                 </svg>
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-1">Lightning Fast Delivery</h3>
-                <p className="text-white/80">Express delivery options available across the country</p>
+                <h3 className="text-md font-medium mb-1">Order Tracking</h3>
+                <p className="text-sm opacity-80">Real-time updates on your purchases</p>
               </div>
             </div>
           </div>

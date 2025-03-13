@@ -18,7 +18,9 @@ import {
   Menu, 
   X,
   LogIn,
-  LogOut
+  LogOut,
+  Home,
+  ChevronRight
 } from 'lucide-react';
 
 export default function Navbar() {

@@ -66,4 +66,5 @@ export interface CategoryWithSubcategories extends Category {
   subCategories: string[];
   color: string;
   icon: string;
+  imageUrl: string;
 }
