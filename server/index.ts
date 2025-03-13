@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Set up session middleware
 app.use(session({
-  secret: 'shopease-secret-key', // In production, use env variable
+  secret: 'flipkart-secret-key', // In production, use env variable
   resave: false,
   saveUninitialized: false,
   store: new MemoryStore({
