@@ -33,13 +33,6 @@ const registerSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters" }),
   phoneNumber: z.string().optional(),
-  address: z.object({
-    street: z.string().optional(),
-    city: z.string().optional(),
-    state: z.string().optional(),
-    zipCode: z.string().optional(),
-    country: z.string().optional(),
-  }).optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -53,14 +46,14 @@ export default function AuthPage() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const { user, isLoading: checkingAuth, loginMutation, registerMutation } = useAuth();
-  
+
   // If user is already logged in, redirect to home page
   useEffect(() => {
     if (user && !checkingAuth) {
       navigate('/');
     }
   }, [user, checkingAuth, navigate]);
-  
+
   const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -68,7 +61,7 @@ export default function AuthPage() {
       password: "",
     },
   });
-  
+
   const registerForm = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -78,16 +71,9 @@ export default function AuthPage() {
       email: "",
       fullName: "",
       phoneNumber: "",
-      address: {
-        street: "",
-        city: "",
-        state: "",
-        zipCode: "",
-        country: "",
-      },
     },
   });
-  
+
   const onLoginSubmit = async (data: LoginFormValues) => {
     loginMutation.mutate(data, {
       onSuccess: () => {
@@ -99,7 +85,7 @@ export default function AuthPage() {
       }
     });
   };
-  
+
   const onRegisterSubmit = async (data: RegisterFormValues) => {
     const { confirmPassword, ...registerData } = data;
     registerMutation.mutate(registerData, {
@@ -112,7 +98,7 @@ export default function AuthPage() {
       }
     });
   };
-  
+
   if (checkingAuth) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -120,194 +106,239 @@ export default function AuthPage() {
       </div>
     );
   }
-  
+
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Left Side - Form */}
       <div className="flex-1 flex items-center justify-center p-8">
-        <div className="bg-white p-8 rounded-sm shadow-lg w-full max-w-md">
-          <h1 className="text-2xl font-bold text-center mb-2 text-[#2874f0] italic">Flipkart</h1>
-          <p className="text-gray-600 text-center mb-6">Plus members get <span className="text-[#f9cc16] font-medium">extra benefits</span> and rewards</p>
-          
-          <Tabs defaultValue="login" value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid grid-cols-2 mb-6">
-              <TabsTrigger value="login">Login</TabsTrigger>
-              <TabsTrigger value="register">Register</TabsTrigger>
-            </TabsList>
-            
-            {/* Login Form */}
-            <TabsContent value="login">
-              <Form {...loginForm}>
-                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
-                  <FormField
-                    control={loginForm.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Username</FormLabel>
-                        <FormControl>
-                          <Input placeholder="johndoe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={loginForm.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="••••••••" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-[#fb641b] hover:bg-[#fa580b] text-white" 
-                    disabled={loginMutation.isPending}
-                  >
-                    {loginMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                    {loginMutation.isPending ? "Signing In..." : "Login"}
-                  </Button>
-                </form>
-              </Form>
-              
-              <div className="mt-4 text-center">
-                <p className="text-sm text-gray-600">
-                  Don't have an account?{" "}
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab('register')}
-                    className="text-primary hover:text-primary-dark font-medium"
-                  >
-                    Sign up
-                  </button>
+        <div className="w-full max-w-4xl shadow-lg rounded-sm overflow-hidden bg-white">
+          <div className="flex">
+            {/* Blue Section */}
+            <div className="bg-[#2874f0] text-white p-10 w-2/5 flex flex-col">
+              <div className="mb-8">
+                <h2 className="text-3xl font-bold mb-3">Welcome to ShopEase</h2>
+                <p className="text-lg">
+                  Get access to your Orders, Wishlist and Recommendations
                 </p>
               </div>
-            </TabsContent>
-            
-            {/* Register Form */}
-            <TabsContent value="register">
-              <Form {...registerForm}>
-                <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
-                  <FormField
-                    control={registerForm.control}
-                    name="fullName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Full Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="John Doe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={registerForm.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Username</FormLabel>
-                        <FormControl>
-                          <Input placeholder="johndoe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={registerForm.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="john.doe@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={registerForm.control}
-                    name="phoneNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Phone Number (optional)</FormLabel>
-                        <FormControl>
-                          <Input placeholder="+1 (123) 456-7890" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={registerForm.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="••••••••" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={registerForm.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Confirm Password</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="••••••••" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-[#fb641b] hover:bg-[#fa580b] text-white" 
-                    disabled={registerMutation.isPending}
-                  >
-                    {registerMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                    {registerMutation.isPending ? "Creating Account..." : "Register"}
-                  </Button>
-                </form>
-              </Form>
-              
-              <div className="mt-4 text-center">
-                <p className="text-sm text-gray-600">
-                  Already have an account?{" "}
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab('login')}
-                    className="text-primary hover:text-primary-dark font-medium"
-                  >
-                    Sign in
-                  </button>
-                </p>
+
+              <div className="mt-auto">
+                <img 
+                  src="https://static-assets-web.flixcart.com/fk-p/images/login_img_c4a81e.png" 
+                  alt="Login illustration" 
+                  className="w-full"
+                />
               </div>
-            </TabsContent>
-          </Tabs>
+            </div>
+
+            {/* Form Section */}
+            <div className="w-3/5 p-10">
+              <Tabs defaultValue="login" value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="grid w-full grid-cols-2 mb-6">
+                  <TabsTrigger value="login">Login</TabsTrigger>
+                  <TabsTrigger value="register">Register</TabsTrigger>
+                </TabsList>
+
+                {/* Login Form */}
+                <TabsContent value="login">
+                  <Form {...loginForm}>
+                    <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-6">
+                      <FormField
+                        control={loginForm.control}
+                        name="username"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input 
+                                placeholder="Enter Email/Mobile number" 
+                                className="h-12 text-base"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={loginForm.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input 
+                                type="password" 
+                                placeholder="Enter Password" 
+                                className="h-12 text-base"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                            <div className="flex justify-between items-center mt-2">
+                              <p className="text-xs text-gray-500">
+                                By continuing, you agree to ShopEase's Terms of Use and Privacy Policy.
+                              </p>
+                              <a href="#" className="text-xs text-[#2874f0]">
+                                Forgot?
+                              </a>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+
+                      <Button 
+                        type="submit" 
+                        className="w-full h-12 bg-[#fb641b] hover:bg-[#fa580b] text-white text-base font-medium" 
+                        disabled={loginMutation.isPending}
+                      >
+                        {loginMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                        {loginMutation.isPending ? "Signing In..." : "Login"}
+                      </Button>
+
+                      <div className="text-center">
+                        <span className="text-sm text-gray-500">OR</span>
+                      </div>
+
+                      <Button 
+                        type="button" 
+                        variant="outline"
+                        className="w-full h-12 text-[#2874f0] border-[#2874f0] hover:bg-[#f5faff] text-base font-medium"
+                      >
+                        Request OTP
+                      </Button>
+                    </form>
+                  </Form>
+                </TabsContent>
+
+                {/* Register Form */}
+                <TabsContent value="register">
+                  <Form {...registerForm}>
+                    <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-6">
+                      <FormField
+                        control={registerForm.control}
+                        name="fullName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input 
+                                placeholder="Enter Full Name" 
+                                className="h-12 text-base"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={registerForm.control}
+                        name="username"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input 
+                                placeholder="Enter Username" 
+                                className="h-12 text-base"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={registerForm.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input 
+                                type="email" 
+                                placeholder="Enter Email" 
+                                className="h-12 text-base"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={registerForm.control}
+                        name="phoneNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input 
+                                placeholder="Enter Phone Number (optional)" 
+                                className="h-12 text-base"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={registerForm.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input 
+                                type="password" 
+                                placeholder="Enter Password" 
+                                className="h-12 text-base"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                            <p className="text-xs text-gray-500 mt-2">
+                              By continuing, you agree to ShopEase's Terms of Use and Privacy Policy.
+                            </p>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={registerForm.control}
+                        name="confirmPassword"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input 
+                                type="password" 
+                                placeholder="Confirm Password" 
+                                className="h-12 text-base"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <Button 
+                        type="submit" 
+                        className="w-full h-12 bg-[#fb641b] hover:bg-[#fa580b] text-white text-base font-medium" 
+                        disabled={registerMutation.isPending}
+                      >
+                        {registerMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                        {registerMutation.isPending ? "Creating Account..." : "Register"}
+                      </Button>
+                    </form>
+                  </Form>
+                </TabsContent>
+              </Tabs>
+            </div>
+          </div>
         </div>
       </div>
-      
+
       {/* Right Side - Hero Image & Text (Flipkart Style) */}
       <div className="hidden lg:flex flex-1 bg-[#2874f0] text-white p-8">
         <div className="flex flex-col justify-center items-start max-w-xl mx-auto">
@@ -315,7 +346,7 @@ export default function AuthPage() {
           <p className="text-lg mb-8 opacity-90">
             Sign up with your mobile number or email to get started
           </p>
-          
+
           <div className="mt-auto">
             <img 
               src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/login_img_c4a81e.png" 
@@ -323,7 +354,7 @@ export default function AuthPage() {
               className="max-w-xs"
             />
           </div>
-          
+
           <div className="space-y-5 mt-8">
             <div className="flex items-start">
               <div className="mr-3">
@@ -339,7 +370,7 @@ export default function AuthPage() {
                 <p className="text-sm opacity-80">Loyalty rewards and free delivery</p>
               </div>
             </div>
-            
+
             <div className="flex items-start">
               <div className="mr-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -354,7 +385,7 @@ export default function AuthPage() {
                 <p className="text-sm opacity-80">Recommendations based on your interests</p>
               </div>
             </div>
-            
+
             <div className="flex items-start">
               <div className="mr-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
