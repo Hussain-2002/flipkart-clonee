@@ -4,42 +4,64 @@ export const CATEGORIES = [
     name: "Electronics",
     icon: "fas fa-mobile-alt",
     subCategories: ["Smartphones", "Laptops", "Audio", "Cameras", "Accessories"],
-    color: "blue"
+    color: "blue",
+    imageUrl: "https://rukminim1.flixcart.com/flap/128/128/image/22fddf3c7da4c4f4.png"
   },
   {
     id: 2,
     name: "Fashion",
     icon: "fas fa-tshirt",
     subCategories: ["Men's Clothing", "Women's Clothing", "Shoes", "Watches", "Accessories"],
-    color: "green"
+    color: "green",
+    imageUrl: "https://rukminim1.flixcart.com/flap/128/128/image/c12afc017e6f24cb.png"
   },
   {
     id: 3,
     name: "Home",
     icon: "fas fa-couch",
     subCategories: ["Furniture", "Kitchen", "Bedding", "Decor", "Appliances"],
-    color: "red"
+    color: "red",
+    imageUrl: "https://rukminim1.flixcart.com/flap/128/128/image/ab7e2b022a4587dd.jpg"
   },
   {
     id: 4,
-    name: "Books",
+    name: "Appliances",
     icon: "fas fa-book",
-    subCategories: ["Fiction", "Non-Fiction", "Educational", "Comics", "Magazines"],
-    color: "yellow"
+    subCategories: ["TVs", "Refrigerators", "Washing Machines", "Air Conditioners", "Microwaves"],
+    color: "yellow",
+    imageUrl: "https://rukminim1.flixcart.com/flap/128/128/image/0ff199d1bd27eb98.png"
   },
   {
     id: 5,
     name: "Beauty",
     icon: "fas fa-spa",
     subCategories: ["Skincare", "Makeup", "Haircare", "Fragrances", "Personal Care"],
-    color: "pink"
+    color: "pink",
+    imageUrl: "https://rukminim1.flixcart.com/flap/128/128/image/dff3f7adcf3a90c6.png"
   },
   {
     id: 6,
-    name: "Sports",
+    name: "Toys",
     icon: "fas fa-futbol",
-    subCategories: ["Fitness", "Outdoor", "Team Sports", "Water Sports", "Cycling"],
-    color: "indigo"
+    subCategories: ["Remote Control Toys", "Educational Toys", "Soft Toys", "Action Figures", "Board Games"],
+    color: "indigo",
+    imageUrl: "https://rukminim1.flixcart.com/flap/128/128/image/69c6589653afdb9a.png"
+  },
+  {
+    id: 7,
+    name: "Grocery",
+    icon: "fas fa-shopping-basket",
+    subCategories: ["Staples", "Snacks", "Beverages", "Personal Care", "Household"],
+    color: "green",
+    imageUrl: "https://rukminim1.flixcart.com/flap/128/128/image/29327f40e9c4d26b.png"
+  },
+  {
+    id: 8,
+    name: "Mobiles",
+    icon: "fas fa-mobile-alt",
+    subCategories: ["iPhone", "Samsung", "Xiaomi", "Realme", "OPPO"],
+    color: "blue",
+    imageUrl: "https://rukminim1.flixcart.com/flap/128/128/image/22fddf3c7da4c4f4.png"
   }
 ];
 
