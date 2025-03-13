@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -15,10 +16,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { apiRequest, queryClient } from '@/lib/queryClient';
 import { Loader2 } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { User } from '@shared/schema';
 
 // Login form schema
 const loginSchema = z.object({
@@ -53,20 +51,7 @@ export default function AuthPage() {
   const [activeTab, setActiveTab] = useState('login');
   const [, navigate] = useLocation();
   const { toast } = useToast();
-  
-  // Check if user is already logged in
-  const { data: user, isLoading: checkingAuth } = useQuery<User | null>({
-    queryKey: ['/api/auth/user'],
-    queryFn: async () => {
-      try {
-        const res = await apiRequest('GET', '/api/auth/user');
-        const data = await res.json();
-        return data.user;
-      } catch (error) {
-        return null;
-      }
-    },
-  });
+  const { user, isLoading: checkingAuth, loginMutation, registerMutation } = useAuth();
   
   // If user is already logged in, redirect to home page
   useEffect(() => {
@@ -102,60 +87,29 @@ export default function AuthPage() {
     },
   });
   
-  const [loginLoading, setLoginLoading] = useState(false);
-  const [registerLoading, setRegisterLoading] = useState(false);
-  
   const onLoginSubmit = async (data: LoginFormValues) => {
-    setLoginLoading(true);
-    
-    try {
-      const res = await apiRequest('POST', '/api/auth/login', data);
-      const responseData = await res.json();
-      
-      toast({
-        title: "Login successful",
-        description: "Welcome back!",
-      });
-      
-      // Refresh auth state and redirect to home
-      queryClient.invalidateQueries({ queryKey: ['/api/auth/user'] });
-      navigate('/');
-    } catch (error: any) {
-      toast({
-        title: "Login failed",
-        description: error.message || "Please check your credentials and try again",
-        variant: "destructive",
-      });
-    } finally {
-      setLoginLoading(false);
-    }
+    loginMutation.mutate(data, {
+      onSuccess: () => {
+        toast({
+          title: "Login successful",
+          description: "Welcome back!",
+        });
+        navigate('/');
+      }
+    });
   };
   
   const onRegisterSubmit = async (data: RegisterFormValues) => {
-    setRegisterLoading(true);
-    
-    try {
-      const { confirmPassword, ...registerData } = data;
-      const res = await apiRequest('POST', '/api/auth/register', registerData);
-      const responseData = await res.json();
-      
-      toast({
-        title: "Registration successful",
-        description: "Your account has been created!",
-      });
-      
-      // Refresh auth state and redirect to home
-      queryClient.invalidateQueries({ queryKey: ['/api/auth/user'] });
-      navigate('/');
-    } catch (error: any) {
-      toast({
-        title: "Registration failed",
-        description: error.message || "Please check your information and try again",
-        variant: "destructive",
-      });
-    } finally {
-      setRegisterLoading(false);
-    }
+    const { confirmPassword, ...registerData } = data;
+    registerMutation.mutate(registerData, {
+      onSuccess: () => {
+        toast({
+          title: "Registration successful",
+          description: "Your account has been created!",
+        });
+        navigate('/');
+      }
+    });
   };
   
   if (checkingAuth) {
@@ -215,10 +169,10 @@ export default function AuthPage() {
                   <Button 
                     type="submit" 
                     className="w-full" 
-                    disabled={loginLoading}
+                    disabled={loginMutation.isPending}
                   >
-                    {loginLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                    {loginLoading ? "Signing In..." : "Sign In"}
+                    {loginMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                    {loginMutation.isPending ? "Signing In..." : "Sign In"}
                   </Button>
                 </form>
               </Form>
@@ -328,10 +282,10 @@ export default function AuthPage() {
                   <Button 
                     type="submit" 
                     className="w-full" 
-                    disabled={registerLoading}
+                    disabled={registerMutation.isPending}
                   >
-                    {registerLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                    {registerLoading ? "Creating Account..." : "Create Account"}
+                    {registerMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                    {registerMutation.isPending ? "Creating Account..." : "Create Account"}
                   </Button>
                 </form>
               </Form>

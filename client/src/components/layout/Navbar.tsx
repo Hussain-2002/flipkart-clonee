@@ -84,6 +84,10 @@ export default function Navbar() {
     dispatch(openCart());
   };
   
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
+  
   const formatPrice = (price: number) => {
     return `₹${(price / 100).toLocaleString('en-IN')}`;
   };
@@ -166,25 +170,41 @@ export default function Navbar() {
             >
               <Package size={16} className="mr-1" /> Orders
             </Link>
-            <div className="relative group">
-              <button className="flex items-center text-sm font-medium hover:text-primary transition-colors">
-                <User size={16} className="mr-1" /> Account
-                <ChevronDown size={12} className="ml-1" />
-              </button>
-              {/* Account Dropdown */}
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300">
-                <div className="py-2 px-4 border-b border-gray-100">
-                  <p className="text-sm font-medium">Welcome</p>
-                  <p className="text-xs text-gray-500">Access account & orders</p>
-                </div>
-                <div className="py-2">
-                  <Link href="/profile" className="block px-4 py-2 text-sm hover:bg-gray-100">My Profile</Link>
-                  <Link href="/orders" className="block px-4 py-2 text-sm hover:bg-gray-100">My Orders</Link>
-                  <Link href="/wishlist" className="block px-4 py-2 text-sm hover:bg-gray-100">My Wishlist</Link>
-                  <button className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Logout</button>
+            
+            {user ? (
+              // Logged in - Show account dropdown
+              <div className="relative group">
+                <button className="flex items-center text-sm font-medium hover:text-primary transition-colors">
+                  <User size={16} className="mr-1" /> 
+                  {user.fullName.split(' ')[0]}
+                  <ChevronDown size={12} className="ml-1" />
+                </button>
+                {/* Account Dropdown */}
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <div className="py-2 px-4 border-b border-gray-100">
+                    <p className="text-sm font-medium">Welcome, {user.fullName.split(' ')[0]}</p>
+                    <p className="text-xs text-gray-500">{user.email}</p>
+                  </div>
+                  <div className="py-2">
+                    <Link href="/profile" className="block px-4 py-2 text-sm hover:bg-gray-100">My Profile</Link>
+                    <Link href="/orders" className="block px-4 py-2 text-sm hover:bg-gray-100">My Orders</Link>
+                    <Link href="/wishlist" className="block px-4 py-2 text-sm hover:bg-gray-100">My Wishlist</Link>
+                    <button 
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-500"
+                    >
+                      <LogOut size={14} className="inline mr-1" /> Logout
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              // Not logged in - Show login button
+              <Link href="/auth" className="flex items-center text-sm font-medium hover:text-primary transition-colors">
+                <LogIn size={16} className="mr-1" /> Login
+              </Link>
+            )}
+            
             {/* Cart Icon with Count */}
             <button 
               onClick={handleCartClick}
@@ -289,29 +309,54 @@ export default function Navbar() {
               className="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Wishlist
+              <Heart size={16} className="inline mr-2" /> Wishlist
             </Link>
             <Link 
               href="/cart"
               className="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100"
               onClick={() => setMobileMenuOpen(false)}
             >
+              <ShoppingCart size={16} className="inline mr-2" /> 
               Cart {cartItemCount > 0 && `(${cartItemCount})`}
             </Link>
-            <Link 
-              href="/orders"
-              className="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Orders
-            </Link>
-            <Link 
-              href="/profile"
-              className="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              My Account
-            </Link>
+            
+            {user ? (
+              // Logged in user - Show account related links
+              <>
+                <Link 
+                  href="/orders"
+                  className="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Package size={16} className="inline mr-2" /> Orders
+                </Link>
+                <Link 
+                  href="/profile"
+                  className="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <User size={16} className="inline mr-2" /> My Profile
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 text-red-500"
+                >
+                  <LogOut size={16} className="inline mr-2" /> Logout
+                </button>
+              </>
+            ) : (
+              // Not logged in - Show login link
+              <Link 
+                href="/auth"
+                className="block px-3 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 text-primary"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <LogIn size={16} className="inline mr-2" /> Login / Register
+              </Link>
+            )}
           </nav>
         </div>
       )}
