@@ -46,8 +46,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* About */}
           <div>
-            <h4 className="font-bold text-lg mb-4">About ShopEase</h4>
-            <p className="text-gray-400 text-sm mb-4">ShopEase is a modern e-commerce platform offering a wide range of products with amazing deals and discounts.</p>
+            <h4 className="font-bold text-lg mb-4">About Flipkart</h4>
+            <p className="text-gray-400 text-sm mb-4">Flipkart is a modern e-commerce platform offering a wide range of products with amazing deals and discounts.</p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 <Facebook size={18} />
@@ -103,7 +103,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center">
                 <Mail size={16} className="mr-2 text-gray-400" />
-                <span className="text-gray-400">support@shopease.com</span>
+                <span className="text-gray-400">support@flipkart.com</span>
               </li>
             </ul>
           </div>
@@ -113,7 +113,7 @@ export default function Footer() {
       {/* Copyright */}
       <div className="bg-gray-900 py-4">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-gray-400 text-center md:text-left">© 2023 ShopEase. All rights reserved.</p>
+          <p className="text-sm text-gray-400 text-center md:text-left">© 2023 Flipkart. All rights reserved.</p>
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
             <img src="https://cdn.pixabay.com/photo/2015/05/26/09/37/paypal-784404_1280.png" alt="PayPal" className="h-6" />
             <img src="https://cdn.pixabay.com/photo/2021/12/08/05/16/visa-6855547_1280.png" alt="Visa" className="h-6" />

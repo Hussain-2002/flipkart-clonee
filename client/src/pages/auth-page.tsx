@@ -116,7 +116,7 @@ export default function AuthPage() {
             {/* Blue Section */}
             <div className="bg-[#2874f0] text-white p-10 w-2/5 flex flex-col">
               <div className="mb-8">
-                <h2 className="text-3xl font-bold mb-3">Welcome to ShopEase</h2>
+                <h2 className="text-3xl font-bold mb-3">Welcome to Flipkart</h2>
                 <p className="text-lg">
                   Get access to your Orders, Wishlist and Recommendations
                 </p>
@@ -176,7 +176,7 @@ export default function AuthPage() {
                             <FormMessage />
                             <div className="flex justify-between items-center mt-2">
                               <p className="text-xs text-gray-500">
-                                By continuing, you agree to ShopEase's Terms of Use and Privacy Policy.
+                                By continuing, you agree to Flipkart's Terms of Use and Privacy Policy.
                               </p>
                               <a href="#" className="text-xs text-[#2874f0]">
                                 Forgot?
@@ -298,7 +298,7 @@ export default function AuthPage() {
                             </FormControl>
                             <FormMessage />
                             <p className="text-xs text-gray-500 mt-2">
-                              By continuing, you agree to ShopEase's Terms of Use and Privacy Policy.
+                              By continuing, you agree to Flipkart's Terms of Use and Privacy Policy.
                             </p>
                           </FormItem>
                         )}

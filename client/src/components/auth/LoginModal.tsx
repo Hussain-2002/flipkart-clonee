@@ -122,7 +122,7 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignup }: LoginM
                       </FormControl>
                       <FormMessage />
                       <p className="text-xs text-gray-500 mt-2">
-                        By continuing, you agree to ShopEase's Terms of Use and Privacy Policy.
+                        By continuing, you agree to Flipkart's Terms of Use and Privacy Policy.
                       </p>
                     </FormItem>
                   )}
@@ -144,7 +144,7 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignup }: LoginM
                       <FormMessage />
                       <div className="flex justify-between items-center mt-2">
                         <p className="text-xs text-gray-500">
-                          By continuing, you agree to ShopEase's Terms of Use and Privacy Policy.
+                          By continuing, you agree to Flipkart's Terms of Use and Privacy Policy.
                         </p>
                         <a href="#" className="text-xs text-[#2874f0]">
                           Forgot?
@@ -187,7 +187,7 @@ export default function LoginModal({ isOpen, onClose, onSwitchToSignup }: LoginM
               className="text-[#2874f0] text-base font-medium"
               onClick={onSwitchToSignup}
             >
-              New to ShopEase? Create an account
+              New to Flipkart? Create an account
             </Button>
           </div>
         </div>
